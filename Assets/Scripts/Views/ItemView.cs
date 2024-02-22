@@ -12,6 +12,7 @@ namespace Inventory.Views
     {
         [SerializeField] private Image _itemIcon;
         [SerializeField] private TMP_Text _countText;
+        [SerializeField] private RectTransform _content;
 
         public EcsPackedEntityWithWorld PackedEntityWithWorld { get; set; }
         public EcsWorld EcsEventWorld { get; set; }
@@ -64,7 +65,7 @@ namespace Inventory.Views
 
         public void SetChild(GameObject child)
         {
-            child.transform.SetParent(transform);
+            child.transform.SetParent(_content);
             child.transform.localPosition = Vector3.zero;
         }
     }

@@ -21,14 +21,16 @@ namespace Inventory
             _world = new EcsWorld();
             _systems = new EcsSystems(_world);
             _systems
-                .Add(new InitSystem())
+                .Add(new ItemsCreateSystem())
                 .Add (new DragSystem())
                 .Add(new InventoryPutSystem())
                 .Add(new ItemInfoPopupSystem())
+                .Add(new ItemQuantitySystem())
+                .Add(new ItemCountDisplaySystem())
                 
                 .Add(new DelHereSystem<DragEvent>())
                 .Add(new DelHereSystem<ClickEvent>())
-                .Add(new DelHereSystem<AmmoEvent>())
+                .Add(new DelHereSystem<ItemQuantityEvent>())
                 .Add(new DelHereSystem<HealEvent>())
                 
                 .AddWorld (new EcsWorld (), "events")

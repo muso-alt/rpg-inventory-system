@@ -1,7 +1,6 @@
 ﻿using System;
 using Inventory.Views;
 using Sirenix.OdinInspector;
-using TMPro;
 using UnityEngine;
 
 namespace Inventory.Data

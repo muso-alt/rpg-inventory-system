@@ -9,7 +9,7 @@ using UnityEngine;
 
 namespace Inventory.Systems
 {
-    public class InitSystem : IEcsInitSystem
+    public class ItemsCreateSystem : IEcsInitSystem
     {
         private EcsCustomInject<InventoryService> _service;
         private EcsCustomInject<ObjectsPool<ItemView>> _objectPool;
@@ -39,6 +39,7 @@ namespace Inventory.Systems
                 item.Weight = config.Weight;
                 item.Icon = config.Icon;
                 item.MaxStackSize = config.MaxStackSize;
+                item.CurrentCount = config.MaxStackSize;
 
                 ConfigureByType(config, entity);
                 PutToCell(view, index);

@@ -6,6 +6,5 @@ namespace Inventory.Components
     {
         public AmmoType Type;
         public float Damage;
-        public int Count;
     }
 }

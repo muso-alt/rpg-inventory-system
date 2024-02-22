@@ -1,6 +1,4 @@
-﻿using System;
-using System.Globalization;
-using Inventory.Components;
+﻿using Inventory.Components;
 using Inventory.Data;
 using Inventory.Events;
 using Inventory.Services;
@@ -48,16 +46,16 @@ namespace Inventory.Systems
                 switch (item.Type)
                 {
                     case ItemType.Ammo:
-                        ConfigureByAmmo(itemEntity);
+                        ConfigureByAmmo(ref item);
                         break;
                     case ItemType.BodyArmor:
-                        ConfigureByArmor(itemEntity);
+                        ConfigureByArmor(ref item);
                         break;
                     case ItemType.HeadArmor:
-                        ConfigureByHeadArmor(itemEntity);
+                        ConfigureByHeadArmor(ref item);
                         break;
                     case ItemType.MedKit:
-                        ConfigureByMedKit(itemEntity);
+                        ConfigureByMedKit(ref item);
                         break;
                 }
                 
@@ -65,33 +63,37 @@ namespace Inventory.Systems
             }
         }
 
-        private void ConfigureByAmmo(int entity)
+        private void ConfigureByAmmo(ref Item item)
         {
+            var entity = item.View.PackedEntityWithWorld.Id;
             ref var ammo = ref _defaultWorld.Value.GetCmpFromWorld<Ammo>(entity);
             
             SetInfoText($"Damage: {ammo.Damage}", "Buy");
-            var ammoEvent = new AmmoEvent {Type = ammo.Type};
-            SubscribeToButton(() => SendEvent(ammoEvent));
+            var quantity = new ItemQuantityEvent() {View = item.View, Quantity = item.MaxStackSize};
+            SubscribeToButton(() => SendEvent(quantity));
         }
         
-        private void ConfigureByArmor(int entity)
+        private void ConfigureByArmor(ref Item item)
         {
+            var entity = item.View.PackedEntityWithWorld.Id;
             ref var armor = ref _defaultWorld.Value.GetCmpFromWorld<BodyArmor>(entity);
             
             SetInfoText($"Armor: {armor.Armor}", "Equip");
             SubscribeToButton(() => SendEvent<HealEvent>());
         }
         
-        private void ConfigureByHeadArmor(int entity)
+        private void ConfigureByHeadArmor(ref Item item)
         {
+            var entity = item.View.PackedEntityWithWorld.Id;
             ref var headArmor = ref _defaultWorld.Value.GetCmpFromWorld<HeadArmor>(entity);
             
             SetInfoText($"Armor: {headArmor.Armor}", "Equip");
             SubscribeToButton(() => SendEvent<HealEvent>());
         }
         
-        private void ConfigureByMedKit(int entity)
+        private void ConfigureByMedKit(ref Item item)
         {
+            var entity = item.View.PackedEntityWithWorld.Id;
             ref var medKit = ref _defaultWorld.Value.GetCmpFromWorld<MedKit>(entity);
             
             SetInfoText($"Healing Power: {medKit.HealingPower}", "Heal");
@@ -127,7 +129,7 @@ namespace Inventory.Systems
 
         private void SendEvent<T>(T data = default) where T : struct
         {
-            _defaultWorld.Value.SendEvent(data);
+            _eventWorld.Value.SendEvent(data);
         }
     }
 }
