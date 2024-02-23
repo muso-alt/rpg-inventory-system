@@ -11,7 +11,6 @@ namespace Inventory.Systems
     {
         private readonly EcsFilterInject<Inc<ItemQuantityEvent>> _quantityFilter = "events";
         
-        private readonly EcsWorldInject _defaultWorld = default;
         private readonly EcsWorldInject _eventWorld = "events";
         
         public void Run(IEcsSystems systems)

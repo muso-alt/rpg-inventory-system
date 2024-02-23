@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 360547316562954989}
   - component: {fileID: 2982363146188036444}
   m_Layer: 5
-  m_Name: Image
+  m_Name: SelectedVisualization
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -87,7 +87,7 @@ GameObject:
   - component: {fileID: 5436519854243367483}
   - component: {fileID: 3246848536941296182}
   m_Layer: 5
-  m_Name: Count
+  m_Name: Damage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -483,6 +483,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6e039c0cb19495f98d3b6853e7c28d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _countText: {fileID: 3246848536941296182}
+  _damageText: {fileID: 3246848536941296182}
   _toggle: {fileID: 5903702240196444482}
   _bulletSpendCount: 1

@@ -1,5 +1,4 @@
-﻿using Inventory.Data;
-using Inventory.Views;
+﻿using Inventory.Views;
 using UnityEngine;
 
 namespace Inventory.Services

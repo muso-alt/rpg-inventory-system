@@ -18,6 +18,7 @@ namespace Inventory
         [SerializeField] private ItemsData _itemsData;
         [SerializeField] private InventoryService _inventoryService;
         [SerializeField] private CameraService _cameraService;
+        [SerializeField] private UnitsService _unitsService;
 
         private void Start ()
         {
@@ -25,14 +26,19 @@ namespace Inventory
             _systems = new EcsSystems(_world);
             _systems
                 .Add(new ItemsCreateSystem())
-                .Add (new DragSystem())
+                .Add(new ShootingSystem())
+                .Add(new UnitCreateSystem())
+                .Add(new UnitHealthDisplaySystem())
+                .Add(new TargetTrackingSystem())
+                .Add(new BulletHitSystem())
+                .Add(new DragSystem())
                 .Add(new InventoryPutSystem())
                 .Add(new ItemInfoPopupSystem())
-                .Add(new ShotSystem())
                 .Add(new ItemQuantitySystem())
                 .Add(new ItemCountDisplaySystem())
                 .Add(new GunsInitSystem())
                 .Add(new GunTriggerSystem())
+                .Add(new GunsDamageDisplaySystem())
                 
                 .Add(new DelHereSystem<DragEvent>())
                 .Add(new DelHereSystem<ClickEvent>())
@@ -41,10 +47,13 @@ namespace Inventory
                 .Add(new DelHereSystem<GunTriggerEvent>())
                 .Add(new DelHereSystem<EndItemEvent>())
                 .Add(new DelHereSystem<ItemQuantityEvent>())
+                .Add(new DelHereSystem<PlayerShootEvent>())
+                .Add(new DelHereSystem<EnemyShootEvent>())
+                .Add(new DelHereSystem<BulletHitTargetEvent>())
                 
                 .AddWorld (new EcsWorld (), "events")
                 .Inject(_inventoryService, _itemsData, _cameraService,
-                    new ObjectsPool<ItemView>(_itemsData.View))
+                    _unitsService, new ObjectsPool<ItemView>(_itemsData.View))
                 .Init ();
         }
 

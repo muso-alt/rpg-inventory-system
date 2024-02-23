@@ -54,7 +54,7 @@ namespace Inventory.Systems
                 case ItemType.Ammo:
                 {
                     ref var ammo = ref _defaultWorld.Value.GetByCreate<Ammo>(entity);
-                    ammo.Damage = config.Damage;
+                    ammo.Damage = (int) config.Damage;
                     ammo.Type = config.AmmoType;
                     break;
                 }
