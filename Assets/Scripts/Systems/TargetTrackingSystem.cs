@@ -45,7 +45,7 @@ namespace Inventory.Systems
                 var pool = _enemyShotFilter.Pools.Inc1;
                 ref var shotEvent = ref pool.Get(entity);
 
-                if (!_enemyFilter.TryGetFirstEntityFromFilter(out var playerEntity))
+                if (!_playerFilter.TryGetFirstEntityFromFilter(out var playerEntity))
                 {
                     return;
                 }

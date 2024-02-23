@@ -2018,7 +2018,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a60f3360824849bb9e778edf2837b71b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _mainContent: {fileID: 941857233}
+  _mainContent: {fileID: 79782308}
   _cellsView: {fileID: 364226500}
   _infoView: {fileID: 1317373252}
   _gunsView: {fileID: 996295756}

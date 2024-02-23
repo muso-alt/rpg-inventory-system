@@ -41,6 +41,7 @@ namespace Inventory
                 .Add(new GunTriggerSystem())
                 .Add(new GunsDamageDisplaySystem())
                 .Add(new ArmorPlacementSystem())
+                .Add(new EquipArmorSystem())
                 
                 .Add(new DelHereSystem<DragEvent>())
                 .Add(new DelHereSystem<ClickEvent>())
