@@ -12,7 +12,6 @@ namespace Inventory.Views
         [SerializeField] private int _bulletSpendCount;
 
         public EcsPackedEntityWithWorld PackedEntityWithWorld { get; set; }
-        public EcsWorld EcsEventWorld { get; set; }
         
         public Toggle Toggle => _toggle;
         public int BulletSpendCount => _bulletSpendCount;

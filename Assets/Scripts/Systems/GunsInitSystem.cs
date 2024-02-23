@@ -36,7 +36,6 @@ namespace Inventory.Systems
             view.Toggle.onValueChanged.RemoveAllListeners();
             view.Toggle.onValueChanged.AddListener(toggle => GunChoose(toggle, view));
 
-            view.EcsEventWorld = _eventWorld.Value;
             view.PackedEntityWithWorld = _defaultWorld.Value.PackEntityWithWorld(entity);
             
             gun.Type = type;

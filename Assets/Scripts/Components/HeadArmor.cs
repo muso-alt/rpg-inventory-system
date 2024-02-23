@@ -2,6 +2,6 @@
 {
     public struct HeadArmor
     {
-        public float Armor;
+        public int Armor;
     }
 }

@@ -29,7 +29,7 @@ namespace Inventory.Systems
                 var pool = _playerShotFilter.Pools.Inc1;
                 ref var shotEvent = ref pool.Get(entity);
 
-                if (!TryGetEnemyEntity(out var enemyEntity))
+                if (!_enemyFilter.TryGetFirstEntityFromFilter(out var enemyEntity))
                 {
                     return;
                 }
@@ -45,7 +45,7 @@ namespace Inventory.Systems
                 var pool = _enemyShotFilter.Pools.Inc1;
                 ref var shotEvent = ref pool.Get(entity);
 
-                if (!TryGetPlayerEntity(out var playerEntity))
+                if (!_enemyFilter.TryGetFirstEntityFromFilter(out var playerEntity))
                 {
                     return;
                 }
@@ -61,32 +61,6 @@ namespace Inventory.Systems
                 {View = unit.View, Damage = damage, ShootType = type};
                 
             _eventWorld.Value.SendEvent(unitShootEvent);
-        }
-
-        private bool TryGetEnemyEntity(out int id)
-        {
-            id = 0;
-            
-            foreach (var entity in _enemyFilter.Value)
-            {
-                id = entity;
-                return true;
-            }
-
-            return false;
-        }
-        
-        private bool TryGetPlayerEntity(out int id)
-        {
-            id = 0;
-            
-            foreach (var entity in _playerFilter.Value)
-            {
-                id = entity;
-                return true;
-            }
-
-            return false;
         }
     }
 }

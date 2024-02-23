@@ -29,16 +29,18 @@ namespace Inventory
                 .Add(new ShootingSystem())
                 .Add(new UnitCreateSystem())
                 .Add(new UnitHealthDisplaySystem())
+                .Add(new AutoShootSystem())
                 .Add(new TargetTrackingSystem())
                 .Add(new BulletHitSystem())
                 .Add(new DragSystem())
-                .Add(new InventoryPutSystem())
+                .Add(new InventoryPlacementSystem())
                 .Add(new ItemInfoPopupSystem())
                 .Add(new ItemQuantitySystem())
                 .Add(new ItemCountDisplaySystem())
                 .Add(new GunsInitSystem())
                 .Add(new GunTriggerSystem())
                 .Add(new GunsDamageDisplaySystem())
+                .Add(new ArmorPlacementSystem())
                 
                 .Add(new DelHereSystem<DragEvent>())
                 .Add(new DelHereSystem<ClickEvent>())
@@ -50,8 +52,10 @@ namespace Inventory
                 .Add(new DelHereSystem<PlayerShootEvent>())
                 .Add(new DelHereSystem<EnemyShootEvent>())
                 .Add(new DelHereSystem<BulletHitTargetEvent>())
+                .Add(new DelHereSystem<EquipHeadArmorEvent>())
+                .Add(new DelHereSystem<EquipBodyArmorEvent>())
                 
-                .AddWorld (new EcsWorld (), "events")
+                .AddWorld (new EcsWorld(), "events")
                 .Inject(_inventoryService, _itemsData, _cameraService,
                     _unitsService, new ObjectsPool<ItemView>(_itemsData.View))
                 .Init ();

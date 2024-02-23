@@ -1,4 +1,5 @@
 ﻿using Leopotam.EcsLite;
+using Leopotam.EcsLite.Di;
 
 namespace Inventory.Services
 {
@@ -21,6 +22,20 @@ namespace Inventory.Services
         {
             var medKitPool = world.GetPool<T>();
             return ref medKitPool.Get(entity);
+        }
+        
+        public static bool TryGetFirstEntityFromFilter<T>(this EcsFilterInject<Inc<T>> filter,
+            out int id) where T : struct
+        {
+            id = 0;
+            
+            foreach (var entity in filter.Value)
+            {
+                id = entity;
+                return true;
+            }
+
+            return false;
         }
     }
 }

@@ -12,17 +12,6 @@ namespace Inventory.Services
 {
     public static class Extensions
     {
-        public static ref Item GetItemByView(this ItemView view)
-        {
-            if (!view.PackedEntityWithWorld.Unpack(out var world, out var targetEntity))
-            {
-                throw new System.NullReferenceException();
-            }
-                
-            var unitPool = world.GetPool<Item>();
-            return ref unitPool.Get(targetEntity);
-        }
-        
         public static bool IsInsideOtherRectByPosition(this RectTransform other, Vector3 position)
         {
             var uiObjectCenter = position;

@@ -49,7 +49,7 @@ namespace Inventory.Systems
                         ConfigureByAmmo(ref item);
                         break;
                     case ItemType.BodyArmor:
-                        ConfigureByArmor(ref item);
+                        ConfigureByBodyArmor(ref item);
                         break;
                     case ItemType.HeadArmor:
                         ConfigureByHeadArmor(ref item);
@@ -69,17 +69,18 @@ namespace Inventory.Systems
             ref var ammo = ref _defaultWorld.Value.GetCmpFromWorld<Ammo>(entity);
             
             SetInfoText($"Damage: {ammo.Damage}", "Buy");
-            var quantity = new ItemQuantityEvent() {View = item.View, Quantity = item.MaxStackSize};
+            var quantity = new ItemQuantityEvent {View = item.View, Quantity = item.MaxStackSize};
             SubscribeToButton(() => SendEvent(quantity));
         }
         
-        private void ConfigureByArmor(ref Item item)
+        private void ConfigureByBodyArmor(ref Item item)
         {
             var entity = item.View.PackedEntityWithWorld.Id;
             ref var armor = ref _defaultWorld.Value.GetCmpFromWorld<BodyArmor>(entity);
             
             SetInfoText($"Armor: {armor.Armor}", "Equip");
-            SubscribeToButton(() => SendEvent<HealEvent>());
+            var armorEvent = new EquipBodyArmorEvent {View = item.View};
+            SubscribeToButton(() => SendEvent(armorEvent));
         }
         
         private void ConfigureByHeadArmor(ref Item item)
@@ -88,7 +89,8 @@ namespace Inventory.Systems
             ref var headArmor = ref _defaultWorld.Value.GetCmpFromWorld<HeadArmor>(entity);
             
             SetInfoText($"Armor: {headArmor.Armor}", "Equip");
-            SubscribeToButton(() => SendEvent<HealEvent>());
+            var armorEvent = new EquipHeadArmorEvent {View = item.View};
+            SubscribeToButton(() => SendEvent(armorEvent));
         }
         
         private void ConfigureByMedKit(ref Item item)

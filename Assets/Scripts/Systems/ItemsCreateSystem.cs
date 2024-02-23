@@ -73,7 +73,7 @@ namespace Inventory.Systems
                 case ItemType.HeadArmor:
                 {
                     ref var medKit = ref _defaultWorld.Value.GetByCreate<HeadArmor>(entity);
-                    medKit.Armor = config.HeadArmor;
+                    medKit.Armor = (int) config.HeadArmor;
                     break;
                 }
             }

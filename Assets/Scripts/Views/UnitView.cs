@@ -11,7 +11,6 @@ namespace Inventory.Views
         [SerializeField] private Slider _healthBar;
 
         public EcsPackedEntityWithWorld PackedEntityWithWorld { get; set; }
-        public EcsWorld EcsEventWorld { get; set; }
         
         public void SetHealth(int count)
         {

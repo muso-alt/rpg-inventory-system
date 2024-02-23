@@ -7,7 +7,7 @@ using UnityEngine.EventSystems;
 
 namespace Inventory.Systems
 {
-    public class InventoryPutSystem : IEcsRunSystem
+    public class InventoryPlacementSystem : IEcsRunSystem
     {
         private readonly EcsFilterInject<Inc<DragEvent>> _dragFilter = "events";
         private EcsCustomInject<InventoryService> _inventoryService;

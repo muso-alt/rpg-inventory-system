@@ -31,7 +31,6 @@ namespace Inventory.Systems
             var unitPool = _defaultWorld.Value.GetPool<Unit>();
             ref var unit = ref unitPool.Add(entity);
 
-            view.EcsEventWorld = _eventWorld.Value;
             view.PackedEntityWithWorld = _defaultWorld.Value.PackEntityWithWorld(entity);
 
             unit.View = view;
