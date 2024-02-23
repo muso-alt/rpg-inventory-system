@@ -12,6 +12,7 @@ namespace Inventory.Systems
     public class ItemsCreateSystem : IEcsInitSystem
     {
         private EcsCustomInject<InventoryService> _service;
+        private EcsCustomInject<ItemsData> _itemsData;
         private EcsCustomInject<ObjectsPool<ItemView>> _objectPool;
         
         private readonly EcsWorldInject _defaultWorld = default;
@@ -19,9 +20,9 @@ namespace Inventory.Systems
         
         public void Init(IEcsSystems systems)
         {
-            for (var index = 0; index < _service.Value.Data.ItemConfigs.Length; index++)
+            for (var index = 0; index < _itemsData.Value.ItemConfigs.Length; index++)
             {
-                var config = _service.Value.Data.ItemConfigs[index];
+                var config = _itemsData.Value.ItemConfigs[index];
                 var entity = _defaultWorld.Value.NewEntity();
 
                 var itemsPool = _defaultWorld.Value.GetPool<Item>();

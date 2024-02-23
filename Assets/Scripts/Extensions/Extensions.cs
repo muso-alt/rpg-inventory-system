@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using Inventory.Components;
+using Inventory.Data;
 using Inventory.Views;
 using Leopotam.EcsLite;
+using Leopotam.EcsLite.Di;
 using UnityEngine;
 
 namespace Inventory.Services
@@ -41,5 +43,26 @@ namespace Inventory.Services
         {
             return cells.Where(cell => cell.ChildItem != null).FirstOrDefault(cell => cell.ChildItem == view);
         }
+        
+        public static bool TryGetAmmoEntityByType(this EcsPoolInject<Ammo> ammoPool, 
+            EcsFilterInject<Inc<Ammo>> filter, AmmoType type, out int id)
+        {
+            foreach (var entity in filter.Value)
+            {
+                ref var ammo = ref ammoPool.Value.Get(entity);
+
+                if (ammo.Type != type)
+                {
+                    continue;
+                }
+
+                id = entity;
+                return true;
+            }
+
+            id = 0;
+            return false;
+        }
+        
     }
 }

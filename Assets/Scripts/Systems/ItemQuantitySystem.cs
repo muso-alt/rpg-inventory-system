@@ -32,11 +32,11 @@ namespace Inventory.Systems
                 var itemPool = world.GetPool<Item>();
                 ref var item = ref itemPool.Get(id);
 
-                item.CurrentCount = Mathf.Clamp(0, item.MaxStackSize, item.CurrentCount + quantity);
+                item.CurrentCount = Mathf.Clamp(item.CurrentCount + quantity, 0, item.MaxStackSize);
 
                 if (item.CurrentCount <= 0)
                 {
-                    _defaultWorld.Value.SendEvent<EndItemEvent>();
+                    _eventWorld.Value.SendEvent<EndItemEvent>();
                 }
             }
         }

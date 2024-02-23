@@ -11,6 +11,7 @@ namespace Inventory.Systems
     {
         private readonly EcsFilterInject<Inc<DragEvent>> _dragFilter = "events";
         private EcsCustomInject<InventoryService> _inventoryService;
+        private EcsCustomInject<CameraService> _cameraService;
         
         public void Run(IEcsSystems systems)
         {
@@ -32,7 +33,7 @@ namespace Inventory.Systems
 
         private void TryPutItemToCell(ItemView itemView, PointerEventData eventData)
         {
-            var position = _inventoryService.Value.Camera.ScreenToWorldPoint(eventData.position);
+            var position = _cameraService.Value.Camera.ScreenToWorldPoint(eventData.position);
             var cells = _inventoryService.Value.CellsView.Cells;
 
             foreach (var cell in cells)

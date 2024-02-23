@@ -1,3 +1,4 @@
+using Inventory.Data;
 using Inventory.Events;
 using Inventory.Services;
 using Inventory.Systems;
@@ -13,8 +14,10 @@ namespace Inventory
     {
         private EcsWorld _world;
         private IEcsSystems _systems;
-        
+
+        [SerializeField] private ItemsData _itemsData;
         [SerializeField] private InventoryService _inventoryService;
+        [SerializeField] private CameraService _cameraService;
 
         private void Start ()
         {
@@ -25,16 +28,23 @@ namespace Inventory
                 .Add (new DragSystem())
                 .Add(new InventoryPutSystem())
                 .Add(new ItemInfoPopupSystem())
+                .Add(new ShotSystem())
                 .Add(new ItemQuantitySystem())
                 .Add(new ItemCountDisplaySystem())
+                .Add(new GunsInitSystem())
+                .Add(new GunTriggerSystem())
                 
                 .Add(new DelHereSystem<DragEvent>())
                 .Add(new DelHereSystem<ClickEvent>())
-                .Add(new DelHereSystem<ItemQuantityEvent>())
                 .Add(new DelHereSystem<HealEvent>())
+                .Add(new DelHereSystem<ActiveGunEvent>())
+                .Add(new DelHereSystem<GunTriggerEvent>())
+                .Add(new DelHereSystem<EndItemEvent>())
+                .Add(new DelHereSystem<ItemQuantityEvent>())
                 
                 .AddWorld (new EcsWorld (), "events")
-                .Inject(_inventoryService, new ObjectsPool<ItemView>(_inventoryService.Data.View))
+                .Inject(_inventoryService, _itemsData, _cameraService,
+                    new ObjectsPool<ItemView>(_itemsData.View))
                 .Init ();
         }
 

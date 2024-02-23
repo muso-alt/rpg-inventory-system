@@ -13,6 +13,7 @@ namespace Inventory.Systems
         private readonly EcsFilterInject<Inc<DragEvent>> _dragFilter = "events";
         
         private EcsCustomInject<InventoryService> _inventoryService;
+        private EcsCustomInject<CameraService> _cameraService;
         
         private GameObject _activeDragItem;
 
@@ -57,7 +58,7 @@ namespace Inventory.Systems
 
         private void Drag(ref Item item, PointerEventData eventData)
         {
-            var newPosition = _inventoryService.Value.Camera.ScreenToWorldPoint(eventData.position);
+            var newPosition = _cameraService.Value.Camera.ScreenToWorldPoint(eventData.position);
             newPosition.z = 0;
             _activeDragItem.transform.position = newPosition;
         }
