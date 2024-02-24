@@ -10,6 +10,9 @@ namespace Inventory.Systems
     {
         private readonly EcsCustomInject<UnitsService> _unitsService;
         private readonly EcsCustomInject<InventoryService> _inventoryService;
+        
+        private readonly EcsWorldInject _eventWorld = "events";
+        
         private readonly EcsFilterInject<Inc<EquipHeadArmorEvent>> _headArmorEquipEvent = "events";
         private readonly EcsFilterInject<Inc<EquipBodyArmorEvent>> _bodyArmorEquipEvent = "events";
         
@@ -28,7 +31,7 @@ namespace Inventory.Systems
 
                 var view = equipEvent.View;
 
-                SetItemToCell(view, _unitsService.Value.PlayerArmorView.BodyCell);
+                SendEvent(view, _unitsService.Value.PlayerArmorView.BodyCell);
             }
         }
 
@@ -41,41 +44,16 @@ namespace Inventory.Systems
 
                 var view = equipEvent.View;
 
-                SetItemToCell(view, _unitsService.Value.PlayerArmorView.HeadCell);
+                SendEvent(view, _unitsService.Value.PlayerArmorView.HeadCell);
             }
         }
 
-        private void SetItemToCell(ItemView view, ArmorCellView armorCell)
+        private void SendEvent(ItemView view, CellView cell)
         {
-            var currentItemCell = view.GetItemCell(_inventoryService.Value.CellsView.Cells);
-
-            if (currentItemCell == null)
-            {
-                return;
-            }
+            var itemPlaceEvent = new PlaceItemEvent
+                {View = view, Cell = cell};
             
-            if (armorCell.ChildItem != null)
-            {
-                PutItemToCell(armorCell.ChildItem, currentItemCell);
-            }
-            else
-            {
-                currentItemCell.ChildItem = null;
-            }
-                
-            PutItemToArmorCell(view, armorCell);
-        }
-
-        private void PutItemToCell(ItemView itemView, CellView cell)
-        {
-            cell.ChildItem = itemView;
-            itemView.SetParent(cell.Rect);
-        }
-
-        private void PutItemToArmorCell(ItemView itemView, ArmorCellView cell)
-        {
-            cell.ChildItem = itemView;
-            itemView.SetParent(cell.Rect);
+            _eventWorld.Value.SendEvent(itemPlaceEvent);
         }
     }
 }

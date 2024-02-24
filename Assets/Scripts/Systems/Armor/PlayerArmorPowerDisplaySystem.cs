@@ -24,8 +24,8 @@ namespace Inventory.Systems
 
                 var armorView = _unitsService.Value.PlayerArmorView;
                 
-                armorView.BodyCell.SetArmor(unit.BodyArmor);
-                armorView.HeadCell.SetArmor(unit.HeadArmor);
+                armorView.BodyArmorPlace.SetArmor(unit.BodyArmor);
+                armorView.HeadArmorPlace.SetArmor(unit.HeadArmor);
             }
         }
     }

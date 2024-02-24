@@ -34,7 +34,7 @@ namespace Inventory
                 .Add(new TargetTrackingSystem())
                 .Add(new BulletHitSystem())
                 .Add(new DragSystem())
-                .Add(new InventoryPlacementSystem())
+                .Add(new DragEndHandleSystem())
                 .Add(new ItemInfoPopupSystem())
                 .Add(new PlayerHealSystem())
                 .Add(new UnitHealSystem())
@@ -45,6 +45,7 @@ namespace Inventory
                 .Add(new GunTriggerSystem())
                 .Add(new GunsDamageDisplaySystem())
                 .Add(new ArmorPlacementSystem())
+                .Add(new ItemPlaceSystem())
                 .Add(new EquipBodyArmorSystem())
                 .Add(new EquipHeadArmorSystem())
                 .Add(new PlayerArmorDamagingDisplaySystem())
@@ -71,6 +72,7 @@ namespace Inventory
                 .Add(new DelHereSystem<UnitDieEvent>())
                 .Add(new DelHereSystem<PlayerDeadEvent>())
                 .Add(new DelHereSystem<EnemyDeadEvent>())
+                .Add(new DelHereSystem<PlaceItemEvent>())
                 
                 .AddWorld (new EcsWorld(), "events")
                 

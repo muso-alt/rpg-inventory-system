@@ -33,11 +33,11 @@ namespace Inventory.Systems
                 
                 if (shootEvent.ShootType == ShootType.Body && unit.BodyArmor > 0)
                 {
-                    armorView.BodyCell.SetAnimation();
+                    armorView.BodyArmorPlace.SetAnimation();
                 }
                 else if (shootEvent.ShootType == ShootType.Head && unit.HeadArmor > 0)
                 {
-                    armorView.HeadCell.SetAnimation();
+                    armorView.HeadArmorPlace.SetAnimation();
                 }
             }
         }
