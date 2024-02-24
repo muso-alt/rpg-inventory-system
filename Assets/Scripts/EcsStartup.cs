@@ -51,6 +51,7 @@ namespace Inventory
                 .Add(new PlayerArmorPowerDisplaySystem())
                 .Add(new UnitDieSystem())
                 .Add(new DeadUnitHandleSystem())
+                .Add(new RaiseEnemySystem())
                 .Add(new EndGameSystem())
                 .Add(new RestartSceneSystem())
                 
@@ -72,9 +73,11 @@ namespace Inventory
                 .Add(new DelHereSystem<EnemyDeadEvent>())
                 
                 .AddWorld (new EcsWorld(), "events")
+                
                 .Inject(_inventoryService, _itemsData, _cameraService,
                     _unitsService, new ObjectsPool<ItemView>(_itemsData.View), 
                     new DeletedItemsPool(), _endGameService)
+                
                 .Init ();
         }
 

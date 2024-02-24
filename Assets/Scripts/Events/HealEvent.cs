@@ -5,6 +5,6 @@ namespace Inventory.Events
     public struct HealEvent
     {
         public UnitView ViewOfHealer;
-        public ItemView ViewOfMedKit;
+        public int HealPower;
     }
 }

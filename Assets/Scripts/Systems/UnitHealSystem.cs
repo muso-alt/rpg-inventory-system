@@ -11,7 +11,6 @@ namespace Inventory.Systems
     public class UnitHealSystem : IEcsRunSystem
     {
         private readonly EcsFilterInject<Inc<HealEvent>> _healEvent = "events";
-        private readonly EcsWorldInject _eventWorld = "events";
         
         public void Run(IEcsSystems systems)
         {
@@ -21,7 +20,7 @@ namespace Inventory.Systems
                 ref var healEvent = ref pool.Get(entity);
 
                 var healerView = healEvent.ViewOfHealer;
-                var medKitView = healEvent.ViewOfMedKit;
+                var healPower = healEvent.HealPower;
 
                 if (!healerView.PackedEntityWithWorld.Unpack(out var world, out var unitEntity))
                 {
@@ -31,30 +30,8 @@ namespace Inventory.Systems
                 var unitPool = world.GetPool<Unit>();
                 ref var unit = ref unitPool.Get(unitEntity);
 
-                //TODO: Set max health system in cmp
-                if (unit.Health >= 100)
-                {
-                    continue;
-                }
-                
-                HealUnit(medKitView, ref unit);
+                unit.Health = Mathf.Clamp(unit.Health + healPower, 0, 100);
             }
-        }
-
-        private void HealUnit(ItemView view, ref Unit unit)
-        {
-            if (!view.PackedEntityWithWorld.Unpack(out var world, out var entity))
-            {
-                return;
-            }
-            
-            var medKitPool = world.GetPool<MedKit>();
-            ref var medKit = ref medKitPool.Get(entity);
-
-            unit.Health = Mathf.Clamp(unit.Health + medKit.HealingPower, 0, 100);
-            
-            var quantityEvent = new ItemQuantityEvent {View = view, Quantity = -medKit.SpendAtOnce};
-            _eventWorld.Value.SendEvent(quantityEvent);
         }
     }
 }

@@ -9,6 +9,8 @@ namespace Inventory.Systems
     public class DeadUnitHandleSystem : IEcsRunSystem
     {
         private readonly EcsFilterInject<Inc<UnitDieEvent>> _unitDieFilter = "events";
+        
+        private readonly EcsPoolInject<Unit> _unitsPool;
         private readonly EcsWorldInject _eventWorld = "events";
         
         public void Run(IEcsSystems systems)
@@ -27,6 +29,8 @@ namespace Inventory.Systems
 
                 var playerPool = world.GetPool<Player>();
                 var enemyPool = world.GetPool<Enemy>();
+                
+                _unitsPool.Value.Del(unitEntity);
                 
                 if (playerPool.Has(unitEntity))
                 {

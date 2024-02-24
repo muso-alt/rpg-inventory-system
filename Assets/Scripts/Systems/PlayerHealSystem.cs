@@ -1,6 +1,7 @@
 ﻿using Inventory.Components;
 using Inventory.Events;
 using Inventory.Services;
+using Inventory.Views;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
 
@@ -28,12 +29,33 @@ namespace Inventory.Systems
                 {
                     continue;
                 }
-
-                ref var unit = ref _unitPool.Value.Get(playerEntity);
-
-                var unitHealEvent = new HealEvent {ViewOfHealer = unit.View, ViewOfMedKit = view};
-                _eventWorld.Value.SendEvent(unitHealEvent);
+                
+                HealUnit(view, playerEntity);
             }
+        }
+        
+        private void HealUnit(ItemView view, int playerEntity)
+        {
+            ref var unit = ref _unitPool.Value.Get(playerEntity);
+
+            if (unit.Health >= 100)
+            {
+                return;
+            }
+            
+            if (!view.PackedEntityWithWorld.Unpack(out var world, out var entity))
+            {
+                return;
+            }
+            
+            var medKitPool = world.GetPool<MedKit>();
+            ref var medKit = ref medKitPool.Get(entity);
+            
+            var unitHealEvent = new HealEvent {ViewOfHealer = unit.View, HealPower = medKit.HealingPower};
+            _eventWorld.Value.SendEvent(unitHealEvent);
+            
+            var quantityEvent = new ItemQuantityEvent {View = view, Quantity = -medKit.SpendAtOnce};
+            _eventWorld.Value.SendEvent(quantityEvent);
         }
     }
 }
