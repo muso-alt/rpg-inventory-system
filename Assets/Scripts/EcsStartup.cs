@@ -19,6 +19,7 @@ namespace Inventory
         [SerializeField] private InventoryService _inventoryService;
         [SerializeField] private CameraService _cameraService;
         [SerializeField] private UnitsService _unitsService;
+        [SerializeField] private EndGameService _endGameService;
 
         private void Start ()
         {
@@ -48,6 +49,10 @@ namespace Inventory
                 .Add(new EquipHeadArmorSystem())
                 .Add(new PlayerArmorDamagingDisplaySystem())
                 .Add(new PlayerArmorPowerDisplaySystem())
+                .Add(new UnitDieSystem())
+                .Add(new DeadUnitHandleSystem())
+                .Add(new EndGameSystem())
+                .Add(new RestartSceneSystem())
                 
                 .Add(new DelHereSystem<DragEvent>())
                 .Add(new DelHereSystem<ClickEvent>())
@@ -62,29 +67,33 @@ namespace Inventory
                 .Add(new DelHereSystem<EquipHeadArmorEvent>())
                 .Add(new DelHereSystem<PlayerHealEvent>())
                 .Add(new DelHereSystem<EquipBodyArmorEvent>())
+                .Add(new DelHereSystem<UnitDieEvent>())
+                .Add(new DelHereSystem<PlayerDeadEvent>())
+                .Add(new DelHereSystem<EnemyDeadEvent>())
                 
                 .AddWorld (new EcsWorld(), "events")
                 .Inject(_inventoryService, _itemsData, _cameraService,
-                    _unitsService, new ObjectsPool<ItemView>(_itemsData.View))
+                    _unitsService, new ObjectsPool<ItemView>(_itemsData.View), 
+                    new DeletedItemsPool(), _endGameService)
                 .Init ();
         }
 
-        private void Update ()
+        private void Update()
         {
-            _systems?.Run ();
+            _systems?.Run();
         }
 
-        private void OnDestroy () 
+        private void OnDestroy() 
         {
             if (_systems != null) 
             {
-                _systems.Destroy ();
+                _systems.Destroy();
                 _systems = null;
             }
 
             if (_world != null) 
             {
-                _world.Destroy ();
+                _world.Destroy();
                 _world = null;
             }
         }

@@ -1,4 +1,5 @@
 ﻿using Inventory.Events;
+using Inventory.Services;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
 using UnityEngine;
@@ -8,6 +9,7 @@ namespace Inventory.Systems
     public class ItemDeleteSystem : IEcsRunSystem
     {
         private readonly EcsFilterInject<Inc<DeleteItemEvent>> _deleteEvent = "events";
+        private EcsCustomInject<DeletedItemsPool> _deletedItems;
         
         public void Run(IEcsSystems systems)
         {
@@ -24,7 +26,7 @@ namespace Inventory.Systems
                 }
 
                 Object.Destroy(view.gameObject);
-                world.DelEntity(itemEntity);
+                _deletedItems.Value.AddToDeleted(itemEntity);
             }
         }
     }

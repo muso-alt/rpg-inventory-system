@@ -52,6 +52,10 @@ namespace Inventory.Services
             id = 0;
             return false;
         }
-        
+
+        /*public static ItemConfig GetConfiguredItem(Item item)
+        {
+            var newConfig = new ItemConfig();
+        }*/
     }
 }

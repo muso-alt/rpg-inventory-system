@@ -15,6 +15,11 @@ namespace Inventory.Systems
             {
                 ref var item = ref _itemsPool.Value.Get(entity);
 
+                if (item.View == null)
+                {
+                    continue;
+                }
+
                 item.View.ToggleCountText(item.CurrentCount > 1);
                 item.View.SetCountText(item.CurrentCount);
             }

@@ -17,8 +17,7 @@ namespace Inventory.Systems
         
         private readonly EcsWorldInject _defaultWorld = default;
         private readonly EcsWorldInject _eventWorld = "events";
-        
-        
+
         public void Run(IEcsSystems systems)
         {
             foreach (var entity in _clickFilter.Value)

@@ -2,6 +2,7 @@
 using Inventory.Events;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
+using UnityEngine;
 
 namespace Inventory.Systems
 {
@@ -37,8 +38,8 @@ namespace Inventory.Systems
                         damage -= unit.HeadArmor;
                         break;
                 }
-                
-                unit.Health -= damage;
+
+                unit.Health = Mathf.Clamp(unit.Health - damage, 0, 100);
             }
         }
     }
