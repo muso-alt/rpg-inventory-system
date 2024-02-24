@@ -25,7 +25,6 @@ namespace Inventory.Systems
                     continue;
                 }
                 
-                Debug.Log("Die");
                 var unitDieEvent = new UnitDieEvent {View = unit.View};
                 _eventWorld.Value.SendEvent(unitDieEvent);
             }
