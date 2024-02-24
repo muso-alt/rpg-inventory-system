@@ -6,7 +6,7 @@ using Leopotam.EcsLite.Di;
 
 namespace Inventory.Systems
 {
-    public class EquipArmorSystem : IEcsRunSystem
+    public class EquipHeadArmorSystem : IEcsRunSystem
     {
         private readonly EcsPoolInject<Unit> _unitPool;
         private readonly EcsFilterInject<Inc<Player>> _playerFilter;

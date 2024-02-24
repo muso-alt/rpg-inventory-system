@@ -2,6 +2,7 @@
 {
     public struct MedKit
     {
-        public float HealingPower;
+        public int HealingPower;
+        public int SpendAtOnce;
     }
 }

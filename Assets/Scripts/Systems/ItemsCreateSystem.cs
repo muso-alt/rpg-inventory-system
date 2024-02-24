@@ -54,7 +54,7 @@ namespace Inventory.Systems
                 case ItemType.Ammo:
                 {
                     ref var ammo = ref _defaultWorld.Value.GetByCreate<Ammo>(entity);
-                    ammo.Damage = (int) config.Damage;
+                    ammo.Damage = config.Damage;
                     ammo.Type = config.AmmoType;
                     break;
                 }
@@ -68,12 +68,13 @@ namespace Inventory.Systems
                 {
                     ref var medKit = ref _defaultWorld.Value.GetByCreate<MedKit>(entity);
                     medKit.HealingPower = config.HealingPower;
+                    medKit.SpendAtOnce = config.SpendAtOnce;
                     break;
                 }
                 case ItemType.HeadArmor:
                 {
                     ref var medKit = ref _defaultWorld.Value.GetByCreate<HeadArmor>(entity);
-                    medKit.Armor = (int) config.HeadArmor;
+                    medKit.Armor = config.HeadArmor;
                     break;
                 }
             }

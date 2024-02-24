@@ -17,5 +17,6 @@ namespace Inventory.Views
             _healthBar.value = count;
             _healthText.text = count.ToString();
         }
+
     }
 }

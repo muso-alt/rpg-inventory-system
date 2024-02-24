@@ -33,19 +33,22 @@ namespace Inventory.Data
 
         [Space]
         [SerializeField, ShowIf(nameof(IsAmmoSelected))]
-        private float _damage;
+        private int _damage;
 
         [Space]
         [SerializeField, ShowIf(nameof(IsArmorSelected))]
-        private float _armor;
+        private int _armor;
         
         [Space]
         [SerializeField, ShowIf(nameof(IsMedKitSelected))]
-        private float _healingPower;
+        private int _healingPower;
+
+        [SerializeField, ShowIf(nameof(IsMedKitSelected))]
+        private int _spendAtOnce;
         
         [Space]
         [SerializeField, ShowIf(nameof(IsHeadArmorSelected))]
-        private float _headArmor;
+        private int _headArmor;
 
         public string ItemName => _itemName;
         public ItemType Type => _type;
@@ -54,10 +57,11 @@ namespace Inventory.Data
         public GameObject Icon => _icon;
         
         public float Weight => _weight;
-        public float Damage => _damage;
-        public float Armor => _armor;
-        public float HealingPower => _healingPower;
-        public float HeadArmor => _headArmor;
+        public int Damage => _damage;
+        public int Armor => _armor;
+        public int HealingPower => _healingPower;
+        public int SpendAtOnce => _spendAtOnce;
+        public int HeadArmor => _headArmor;
 
         public int MaxStackSize => _maxStackSize;
 

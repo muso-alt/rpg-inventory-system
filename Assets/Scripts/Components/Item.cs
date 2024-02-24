@@ -10,8 +10,10 @@ namespace Inventory.Components
         public ItemType Type;
         public ItemView View;
         public GameObject Icon;
+        
         public int MaxStackSize;
         public int CurrentCount;
+        
         public float Weight;
     }
 }

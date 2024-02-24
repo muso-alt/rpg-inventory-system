@@ -2,6 +2,7 @@
 using Inventory.Data;
 using Inventory.Events;
 using Inventory.Services;
+using Inventory.Views;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
 using UnityEngine.Events;
@@ -42,6 +43,7 @@ namespace Inventory.Systems
                 infoPopup.Icon = Object.Instantiate(item.Icon, infoPopup.Content);
                 
                 SubscribeToCloseButton();
+                SubscribeToDeleteButton(item.View);
 
                 switch (item.Type)
                 {
@@ -61,6 +63,14 @@ namespace Inventory.Systems
                 
                 infoPopup.Show();
             }
+        }
+
+        private void SubscribeToDeleteButton(ItemView view)
+        {
+            var deleteEvent = new DeleteItemEvent {View = view};
+            
+            _service.Value.InfoPopup.DeleteButton.onClick.RemoveAllListeners();
+            _service.Value.InfoPopup.DeleteButton.onClick.AddListener(() => SendEvent(deleteEvent));
         }
 
         private void ConfigureByAmmo(ref Item item)
@@ -99,7 +109,8 @@ namespace Inventory.Systems
             ref var medKit = ref _defaultWorld.Value.GetCmpFromWorld<MedKit>(entity);
             
             SetInfoText($"Healing Power: {medKit.HealingPower}", "Heal");
-            SubscribeToButton(() => SendEvent<HealEvent>());
+            var playerHealEvent = new PlayerHealEvent {View = item.View};
+            SubscribeToButton(() => SendEvent(playerHealEvent));
         }
 
         private void SetInfoText(string performanceText, string activeButtonText)
@@ -131,6 +142,7 @@ namespace Inventory.Systems
 
         private void SendEvent<T>(T data = default) where T : struct
         {
+           HidePopup();
             _eventWorld.Value.SendEvent(data);
         }
     }

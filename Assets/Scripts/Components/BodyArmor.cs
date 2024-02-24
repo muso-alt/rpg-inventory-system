@@ -2,6 +2,6 @@
 {
     public struct BodyArmor
     {
-        public float Armor;
+        public int Armor;
     }
 }

@@ -35,7 +35,8 @@ namespace Inventory.Systems
 
                 if (item.CurrentCount <= 0)
                 {
-                    _eventWorld.Value.SendEvent<EndItemEvent>();
+                    var deleteEvent = new DeleteItemEvent {View = item.View};
+                    _eventWorld.Value.SendEvent(deleteEvent);
                 }
             }
         }

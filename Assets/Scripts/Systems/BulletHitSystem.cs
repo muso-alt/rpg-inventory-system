@@ -1,5 +1,4 @@
-﻿using System;
-using Inventory.Components;
+﻿using Inventory.Components;
 using Inventory.Events;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;

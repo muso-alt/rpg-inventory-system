@@ -23,6 +23,7 @@ MonoBehaviour:
     _damage: 5
     _armor: 0
     _healingPower: 0
+    _spendAtOnce: 0
     _headArmor: 0
   - _itemName: Patron (Riffle)
     _type: 0
@@ -33,6 +34,7 @@ MonoBehaviour:
     _damage: 9
     _armor: 0
     _healingPower: 0
+    _spendAtOnce: 0
     _headArmor: 0
   - _itemName: Med Kit
     _type: 3
@@ -43,6 +45,7 @@ MonoBehaviour:
     _damage: 0
     _armor: 0
     _healingPower: 50
+    _spendAtOnce: 1
     _headArmor: 0
   - _itemName: Body Armor
     _type: 1
@@ -53,6 +56,7 @@ MonoBehaviour:
     _damage: 0
     _armor: 10
     _healingPower: 0
+    _spendAtOnce: 0
     _headArmor: 0
   - _itemName: Jacket
     _type: 1
@@ -63,6 +67,7 @@ MonoBehaviour:
     _damage: 0
     _armor: 3
     _healingPower: 0
+    _spendAtOnce: 0
     _headArmor: 0
   - _itemName: Cap
     _type: 2
@@ -73,6 +78,7 @@ MonoBehaviour:
     _damage: 0
     _armor: 0
     _healingPower: 0
+    _spendAtOnce: 0
     _headArmor: 3
   - _itemName: Head Armor
     _type: 2
@@ -83,4 +89,5 @@ MonoBehaviour:
     _damage: 0
     _armor: 0
     _healingPower: 0
+    _spendAtOnce: 0
     _headArmor: 10

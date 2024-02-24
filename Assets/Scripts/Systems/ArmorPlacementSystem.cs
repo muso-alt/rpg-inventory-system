@@ -8,7 +8,6 @@ namespace Inventory.Systems
 {
     public class ArmorPlacementSystem : IEcsRunSystem
     {
-        private readonly EcsWorldInject _eventWorld = "events";
         private readonly EcsCustomInject<UnitsService> _unitsService;
         private readonly EcsCustomInject<InventoryService> _inventoryService;
         private readonly EcsFilterInject<Inc<EquipHeadArmorEvent>> _headArmorEquipEvent = "events";
@@ -48,24 +47,35 @@ namespace Inventory.Systems
 
         private void SetItemToCell(ItemView view, ArmorCellView armorCell)
         {
-            if (armorCell.ChildItem != null)
+            var currentItemCell = view.GetItemCell(_inventoryService.Value.CellsView.Cells);
+
+            if (currentItemCell == null)
             {
-                SwapItems(view);
+                return;
             }
             
-            view.SetParent(armorCell.Rect);
-            armorCell.ChildItem = view;
+            if (armorCell.ChildItem != null)
+            {
+                PutItemToCell(armorCell.ChildItem, currentItemCell);
+            }
+            else
+            {
+                currentItemCell.ChildItem = null;
+            }
+                
+            PutItemToArmorCell(view, armorCell);
         }
 
-        private void SwapItems(ItemView view)
+        private void PutItemToCell(ItemView itemView, CellView cell)
         {
-            var currentViewCell = view.GetItemCell(_inventoryService.Value.CellsView.Cells);
-            var headArmorCell = _unitsService.Value.PlayerArmorView.HeadCell;
+            cell.ChildItem = itemView;
+            itemView.SetParent(cell.Rect);
+        }
 
-            var oldItem = headArmorCell.ChildItem;
-            
-            oldItem.SetParent(currentViewCell.Rect);
-            currentViewCell.ChildItem = oldItem;
+        private void PutItemToArmorCell(ItemView itemView, ArmorCellView cell)
+        {
+            cell.ChildItem = itemView;
+            itemView.SetParent(cell.Rect);
         }
     }
 }

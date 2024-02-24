@@ -1,7 +1,10 @@
-﻿namespace Inventory.Events
+﻿using Inventory.Views;
+
+namespace Inventory.Events
 {
     public struct HealEvent
     {
-        public int HealPower;
+        public UnitView ViewOfHealer;
+        public ItemView ViewOfMedKit;
     }
 }
