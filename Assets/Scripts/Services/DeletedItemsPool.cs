@@ -14,13 +14,14 @@ namespace Inventory.Services
 
         public bool TryGetRandomItem(out int entity)
         {
-            entity = _items[Random.Range(0, _items.Count)];
-
             if (_items.Count <= 0)
             {
+                entity = 0;
                 return false;
             }
             
+            entity = _items[Random.Range(0, _items.Count)];
+
             _items.Remove(entity);
             return true;
         }

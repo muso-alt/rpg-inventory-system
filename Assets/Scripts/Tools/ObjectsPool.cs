@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Inventory.Tools
 {
-    public class ObjectsPool<T> where T : MonoBehaviour
+    public class ObjectsPool<T> where T : ItemView
     {
         private readonly T _item;
         private readonly List<T> _pool = new List<T>();
@@ -29,6 +29,7 @@ namespace Inventory.Tools
 
         public void Return(T view)
         {
+            view.CleanContent();
             view.gameObject.SetActive(false);
             _pool.Add(view);
         }

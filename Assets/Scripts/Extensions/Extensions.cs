@@ -53,9 +53,10 @@ namespace Inventory.Services
             return false;
         }
 
-        /*public static ItemConfig GetConfiguredItem(Item item)
+        public static CellView GetRandomEmptyCell(this IEnumerable<CellView> cells)
         {
-            var newConfig = new ItemConfig();
-        }*/
+            var emptyCells = cells.Where(cell => cell.ChildItem == null).ToList();
+            return emptyCells[Random.Range(0, emptyCells.Count)];
+        }
     }
 }

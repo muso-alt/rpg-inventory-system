@@ -3,6 +3,7 @@ using Inventory.Services;
 using Inventory.Views;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
+using UnityEngine;
 
 namespace Inventory.Systems
 {
@@ -28,16 +29,11 @@ namespace Inventory.Systems
             
             var currentItemCell = itemView.GetItemCell(cells);
 
-            if (currentItemCell == null)
-            {
-                return;
-            }
-            
             if (cell.ChildItem != null)
             {
                 PutItemToCell(cell.ChildItem, currentItemCell);
             }
-            else
+            else if(currentItemCell != null)
             {
                 currentItemCell.ChildItem = null;
             }

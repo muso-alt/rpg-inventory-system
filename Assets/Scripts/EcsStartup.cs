@@ -20,12 +20,17 @@ namespace Inventory
         [SerializeField] private CameraService _cameraService;
         [SerializeField] private UnitsService _unitsService;
         [SerializeField] private EndGameService _endGameService;
+        [SerializeField] private WebRequestView _webRequestView;
 
         private void Start ()
         {
             _world = new EcsWorld();
             _systems = new EcsSystems(_world);
             _systems
+                .Add(new NewGameSystem())
+                .Add(new LoginSystem())
+                .Add(new InitRemoteDataSystem())
+                .Add(new ContainerHandleSystem())
                 .Add(new ItemsCreateSystem())
                 .Add(new ShootingSystem())
                 .Add(new UnitCreateSystem())
@@ -45,7 +50,6 @@ namespace Inventory
                 .Add(new GunTriggerSystem())
                 .Add(new GunsDamageDisplaySystem())
                 .Add(new ArmorPlacementSystem())
-                .Add(new ItemPlaceSystem())
                 .Add(new EquipBodyArmorSystem())
                 .Add(new EquipHeadArmorSystem())
                 .Add(new PlayerArmorDamagingDisplaySystem())
@@ -53,8 +57,11 @@ namespace Inventory
                 .Add(new UnitDieSystem())
                 .Add(new DeadUnitHandleSystem())
                 .Add(new RaiseEnemySystem())
+                .Add(new BonusItemSystem())
+                .Add(new ItemPlaceSystem())
                 .Add(new EndGameSystem())
                 .Add(new RestartSceneSystem())
+                .Add(new UpdateRemoteDataSystem())
                 
                 .Add(new DelHereSystem<DragEvent>())
                 .Add(new DelHereSystem<ClickEvent>())
@@ -78,7 +85,7 @@ namespace Inventory
                 
                 .Inject(_inventoryService, _itemsData, _cameraService,
                     _unitsService, new ObjectsPool<ItemView>(_itemsData.View), 
-                    new DeletedItemsPool(), _endGameService)
+                    new DeletedItemsPool(), _endGameService, _webRequestView)
                 
                 .Init ();
         }

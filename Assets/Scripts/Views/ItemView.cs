@@ -10,7 +10,6 @@ namespace Inventory.Views
 {
     public class ItemView : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, IDragHandler, IEndDragHandler
     {
-        [SerializeField] private Image _itemIcon;
         [SerializeField] private TMP_Text _countText;
         [SerializeField] private RectTransform _content;
 
@@ -67,6 +66,18 @@ namespace Inventory.Views
         {
             child.transform.SetParent(_content);
             child.transform.localPosition = Vector3.zero;
+            child.transform.localScale = Vector3.one;
+        }
+
+        public void CleanContent()
+        {
+            if (_content.childCount <= 0)
+            {
+                return;
+            }
+
+            var child = _content.GetChild(0);
+            Destroy(child.gameObject);
         }
     }
 }
