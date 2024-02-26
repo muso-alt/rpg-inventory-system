@@ -14,11 +14,13 @@ namespace Inventory.Services
         [SerializeField] private string _url;
         [SerializeField] private string _accessToken;
 
+        [SerializeField] private TMP_Text _idText;
+
         [SerializeField] private Button _loginButton;
         [SerializeField] private Button _newGameButton;
         [SerializeField] private TMP_InputField _inputField;
         
-        [SerializeField] private GameObject _loadingObject;
+        [SerializeField] private TMP_Text _statusText;
 
         private Container _container;
         
@@ -36,6 +38,11 @@ namespace Inventory.Services
             
             _loginButton.onClick.AddListener(SendLoginEvent);
             _newGameButton.onClick.AddListener(SendNewGameEvent);
+        }
+
+        public void SetId(int id)
+        {
+            _idText.text = $"Your ID: {id}";
         }
 
         private void SendNewGameEvent()
@@ -64,9 +71,18 @@ namespace Inventory.Services
 
         public void ToggleLoading(bool toggleValue)
         {
-            _loginButton.interactable = !toggleValue;
-            _newGameButton.interactable = !toggleValue;
-            _loadingObject.SetActive(toggleValue);
+            _statusText.gameObject.SetActive(toggleValue);
+        }
+
+        public void ToggleButtons(bool toggleValue)
+        {
+            _loginButton.interactable = toggleValue;
+            _newGameButton.interactable = toggleValue;
+        }
+
+        public void SetStatusText(string text)
+        {
+            _statusText.text = text;
         }
 
         private void OnDestroy()

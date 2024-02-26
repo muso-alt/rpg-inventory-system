@@ -11,6 +11,7 @@ namespace Inventory.Systems
 {
     public class ContainerHandleSystem : IEcsRunSystem
     {
+        private readonly EcsCustomInject<GameStateService> _gameStateService;
         private readonly EcsFilterInject<Inc<Container>> _containerFilter = "events";
         private readonly EcsWorldInject _eventWorld = "events";
 
@@ -35,6 +36,8 @@ namespace Inventory.Systems
                 
             _eventWorld.Value.SendEvent(createItemEvent);
             _eventWorld.Value.SendEvent(jsonData.Units);
+            
+            _gameStateService.Value.IsPlaying = true;
         }
     }
 }

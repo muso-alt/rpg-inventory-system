@@ -30,7 +30,6 @@ namespace Inventory.Systems
             {
                 var pool = _dataEvent.Pools.Inc1;
 
-                var id = _requestView.Value.CurrentAccountID;
                 var container = GetContainer();
                 
                 pool.Del(entity);
@@ -66,7 +65,8 @@ namespace Inventory.Systems
             jsonData.Units.EnemyHealth = 100;
 
             var data = JsonConvert.SerializeObject(jsonData);
-            var container = new Container {Value = data, ID = 7};
+            var id = _requestView.Value.CurrentAccountID;
+            var container = new Container {Value = data, ID = id};
             return container;
         }
 
@@ -117,6 +117,7 @@ namespace Inventory.Systems
 
             var response = JsonConvert.DeserializeObject<Container>(webRequest.downloadHandler.text);
             _requestView.Value.CurrentAccountID = response.ID;
+            _requestView.Value.SetId(response.ID);
         }
     }
 }

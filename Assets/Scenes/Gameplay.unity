@@ -6743,9 +6743,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3010785771561100488, guid: a7d8b306ea7f8bc4d95f11d1a6196714, type: 3}
+      propertyPath: _idText
+      value: 
+      objectReference: {fileID: 1466404957}
     - target: {fileID: 9197095224927112794, guid: a7d8b306ea7f8bc4d95f11d1a6196714, type: 3}
       propertyPath: m_Name
       value: LoginScreen
+      objectReference: {fileID: 0}
+    - target: {fileID: 9197095224927112794, guid: a7d8b306ea7f8bc4d95f11d1a6196714, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

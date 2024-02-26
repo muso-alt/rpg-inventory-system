@@ -28,6 +28,7 @@ namespace Inventory
             _systems = new EcsSystems(_world);
             _systems
                 .Add(new NewGameSystem())
+                .Add(new AutoUpdateDataSystem())
                 .Add(new LoginSystem())
                 .Add(new InitRemoteDataSystem())
                 .Add(new ContainerHandleSystem())
@@ -83,9 +84,9 @@ namespace Inventory
                 
                 .AddWorld (new EcsWorld(), "events")
                 
-                .Inject(_inventoryService, _itemsData, _cameraService,
-                    _unitsService, new ObjectsPool<ItemView>(_itemsData.View), 
-                    new DeletedItemsPool(), _endGameService, _webRequestView)
+                .Inject(_inventoryService, _itemsData, _cameraService, _unitsService, 
+                    new ObjectsPool<ItemView>(_itemsData.View), new DeletedItemsPool(), 
+                    _endGameService, _webRequestView, new GameStateService())
                 
                 .Init ();
         }

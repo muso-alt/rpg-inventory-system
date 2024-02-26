@@ -13,6 +13,8 @@ namespace Inventory.Systems
         private EcsCustomInject<InventoryService> _inventoryService;
         private EcsCustomInject<CameraService> _cameraService;
         
+        private readonly EcsWorldInject _eventsWorld = "events";
+        
         public void Run(IEcsSystems systems)
         {
             foreach (var entity in _dragFilter.Value)
@@ -42,27 +44,11 @@ namespace Inventory.Systems
                 {
                     continue;
                 }
-
-                var currentItemCell = itemView.GetItemCell(cells);
                 
-                if (cell.ChildItem != null)
-                {
-                    PutItemToCell(cell.ChildItem, currentItemCell);
-                }
-                else
-                {
-                    currentItemCell.ChildItem = null;
-                }
-                
-                PutItemToCell(itemView, cell);
-                return;
+                var placeItemEvent = new PlaceItemEvent {View = itemView, Cell = cell};
+                _eventsWorld.Value.SendEvent(placeItemEvent);
+                break;
             }
-        }
-
-        private void PutItemToCell(ItemView itemView, CellView cell)
-        {
-            cell.ChildItem = itemView;
-            itemView.SetParent(cell.Rect);
         }
     }
 }

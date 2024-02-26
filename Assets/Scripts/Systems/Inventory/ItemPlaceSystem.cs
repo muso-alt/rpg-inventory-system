@@ -3,7 +3,6 @@ using Inventory.Services;
 using Inventory.Views;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
-using UnityEngine;
 
 namespace Inventory.Systems
 {
@@ -11,7 +10,7 @@ namespace Inventory.Systems
     {
         private readonly EcsFilterInject<Inc<PlaceItemEvent>> _placeItemFilter = "events";
         private readonly EcsCustomInject<InventoryService> _inventoryService;
-        
+
         public void Run(IEcsSystems systems)
         {
             foreach (var entity in _placeItemFilter.Value)

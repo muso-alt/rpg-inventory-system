@@ -1465,7 +1465,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _url: https://yamus.uz/test.json
   _accessToken: MUSOTEST123
+  _idText: {fileID: 0}
   _loginButton: {fileID: 8589109817708957583}
   _newGameButton: {fileID: 6249566280969725877}
   _inputField: {fileID: 6052337965964469026}
-  _loadingObject: {fileID: 2666975426806882425}
+  _statusText: {fileID: 604167210542281469}
