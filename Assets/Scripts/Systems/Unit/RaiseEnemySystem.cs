@@ -8,7 +8,6 @@ namespace Inventory.Systems
     public class RaiseEnemySystem : IEcsRunSystem
     {
         private readonly EcsFilterInject<Inc<EnemyDeadEvent>> _deadFilter = "events";
-        private readonly EcsWorldInject _eventWorld = "events";
         private readonly EcsPoolInject<Unit> _unitsPool;
         
         public void Run(IEcsSystems systems)

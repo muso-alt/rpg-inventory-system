@@ -10,6 +10,7 @@ namespace Inventory.Systems
         private readonly EcsFilterInject<Inc<PlayerDeadEvent>> _playerDeadFilter = "events";
         
         private readonly EcsCustomInject<EndGameService> _endGame;
+        private readonly EcsCustomInject<GameStateService> _gameService;
         private readonly EcsWorldInject _eventWorld = "events";
         
         public void Run(IEcsSystems systems)
@@ -18,6 +19,8 @@ namespace Inventory.Systems
             {
                 var pool = _playerDeadFilter.Pools.Inc1;
                 ref var dieEvent = ref pool.Get(entity);
+
+                _gameService.Value.IsPlaying = false;
 
                 var popup = _endGame.Value.EndGamePopup;
                 popup.RestartButton.onClick.RemoveAllListeners();

@@ -15,6 +15,7 @@ namespace Inventory.Systems
         private readonly EcsCustomInject<InventoryService> _service;
         private readonly EcsCustomInject<ItemsData> _itemsData;
         private readonly EcsCustomInject<ObjectsPool<ItemView>> _objectPool;
+        private readonly EcsCustomInject<ItemPlaceService> _placeService;
 
         private readonly EcsFilterInject<Inc<CreateItemEvent>> _itemsFilter = "events";
         
@@ -63,8 +64,13 @@ namespace Inventory.Systems
             ConfigureByType(config, entity);
 
             var cells = _service.Value.CellsView.Cells;
-            var cell = cells[itemData.CellIndex];
-
+            var cell = cells.GetRandomEmptyCell();
+            
+            if(itemData.CellIndex != -1)
+            {
+                cell = cells[itemData.CellIndex];
+            }
+            
             PutToCell(view, cell);
         }
 
@@ -117,8 +123,7 @@ namespace Inventory.Systems
 
         private void PutToCell(ItemView view, CellView cell)
         {
-            var placeItemEvent = new PlaceItemEvent {View = view, Cell = cell};
-            _eventWorld.Value.SendEvent(placeItemEvent);
+            _placeService.Value.TryPutItemToCell(view, cell);
         }
     }
 }

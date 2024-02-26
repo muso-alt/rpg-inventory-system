@@ -28,41 +28,48 @@ namespace Inventory
             _systems = new EcsSystems(_world);
             _systems
                 .Add(new NewGameSystem())
-                .Add(new AutoUpdateDataSystem())
                 .Add(new LoginSystem())
                 .Add(new InitRemoteDataSystem())
                 .Add(new ContainerHandleSystem())
+                
                 .Add(new ItemsCreateSystem())
-                .Add(new ShootingSystem())
                 .Add(new UnitCreateSystem())
-                .Add(new UnitHealthDisplaySystem())
+                
+                .Add(new ShootingSystem())
                 .Add(new AutoShootSystem())
                 .Add(new TargetTrackingSystem())
-                .Add(new BulletHitSystem())
                 .Add(new DragSystem())
                 .Add(new DragEndHandleSystem())
                 .Add(new ItemInfoPopupSystem())
                 .Add(new PlayerHealSystem())
-                .Add(new UnitHealSystem())
                 .Add(new ItemQuantitySystem())
-                .Add(new ItemDeleteSystem())
-                .Add(new ItemCountDisplaySystem())
                 .Add(new GunsInitSystem())
                 .Add(new GunTriggerSystem())
-                .Add(new GunsDamageDisplaySystem())
+                .Add(new PlayerArmorAutoSetSystem())
                 .Add(new ArmorPlacementSystem())
                 .Add(new EquipBodyArmorSystem())
                 .Add(new EquipHeadArmorSystem())
-                .Add(new PlayerArmorDamagingDisplaySystem())
-                .Add(new PlayerArmorPowerDisplaySystem())
                 .Add(new UnitDieSystem())
                 .Add(new DeadUnitHandleSystem())
-                .Add(new RaiseEnemySystem())
                 .Add(new BonusItemSystem())
-                .Add(new ItemPlaceSystem())
                 .Add(new EndGameSystem())
+                
+                //Without send events
+                .Add(new AutoUpdateDataSystem())
+                .Add(new BulletHitSystem())
+                .Add(new UnitHealSystem())
+                .Add(new ItemDeleteSystem())
+                .Add(new ItemPlaceSystem())
+                .Add(new RaiseEnemySystem())
                 .Add(new RestartSceneSystem())
                 .Add(new UpdateRemoteDataSystem())
+                
+                //Displays systems
+                .Add(new ItemCountDisplaySystem())
+                .Add(new GunsDamageDisplaySystem())
+                .Add(new UnitHealthDisplaySystem())
+                .Add(new PlayerArmorPowerDisplaySystem())
+                .Add(new PlayerArmorDamagingDisplaySystem())
                 
                 .Add(new DelHereSystem<DragEvent>())
                 .Add(new DelHereSystem<ClickEvent>())
@@ -80,13 +87,14 @@ namespace Inventory
                 .Add(new DelHereSystem<UnitDieEvent>())
                 .Add(new DelHereSystem<PlayerDeadEvent>())
                 .Add(new DelHereSystem<EnemyDeadEvent>())
-                .Add(new DelHereSystem<PlaceItemEvent>())
+                .Add(new DelHereSystem<CreateUnitsEvent>())
                 
                 .AddWorld (new EcsWorld(), "events")
                 
-                .Inject(_inventoryService, _itemsData, _cameraService, _unitsService, 
-                    new ObjectsPool<ItemView>(_itemsData.View), new DeletedItemsPool(), 
-                    _endGameService, _webRequestView, new GameStateService())
+                .Inject(_inventoryService, _itemsData, _cameraService, 
+                    _unitsService, new ObjectsPool<ItemView>(_itemsData.View), 
+                    new DeletedItemsPool(), _endGameService, _webRequestView, 
+                    new GameStateService(), new ItemPlaceService(_inventoryService.CellsView))
                 
                 .Init ();
         }

@@ -25,7 +25,7 @@ namespace Inventory.Systems
                 {
                     continue;
                 }
-
+                
                 var armorPool = world.GetPool<HeadArmor>();
                 ref var armor = ref armorPool.Get(itemEntity);
 

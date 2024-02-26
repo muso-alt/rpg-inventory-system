@@ -16,6 +16,7 @@ namespace Inventory.Systems
         private readonly EcsCustomInject<InventoryService> _inventoryService;
         private readonly EcsCustomInject<DeletedItemsPool> _deletedItems;
         private readonly EcsCustomInject<ObjectsPool<ItemView>> _objPool;
+        private readonly EcsCustomInject<ItemPlaceService> _placeService;
         
         private readonly EcsFilterInject<Inc<EnemyDeadEvent>> _deadFilter = "events";
         private readonly EcsWorldInject _eventWorld = "events";
@@ -43,8 +44,8 @@ namespace Inventory.Systems
                 item.View = itemView;
 
                 var cell = _inventoryService.Value.CellsView.Cells.GetRandomEmptyCell();
-                var placeItemEvent = new PlaceItemEvent {View = itemView, Cell = cell};
-                _eventWorld.Value.SendEvent(placeItemEvent);
+                
+                _placeService.Value.TryPutItemToCell(itemView, cell);
             }
         }
     }

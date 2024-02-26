@@ -8,18 +8,18 @@ namespace Inventory.Systems
 {
     public class ItemPlaceSystem : IEcsRunSystem
     {
-        private readonly EcsFilterInject<Inc<PlaceItemEvent>> _placeItemFilter = "events";
+        //private readonly EcsFilterInject<Inc<PlaceItemEvent>> _placeItemFilter = "events";
         private readonly EcsCustomInject<InventoryService> _inventoryService;
 
         public void Run(IEcsSystems systems)
         {
-            foreach (var entity in _placeItemFilter.Value)
+            /*foreach (var entity in _placeItemFilter.Value)
             {
-                var pool = _placeItemFilter.Pools.Inc1;
-                ref var placeItemEvent = ref pool.Get(entity);
+                //var pool = _placeItemFilter.Pools.Inc1;
+                //var placeItemEvent = pool.Get(entity);
                 
-                TryPutItemToCell(placeItemEvent.View, placeItemEvent.Cell);
-            }
+               // TryPutItemToCell(placeItemEvent.View, placeItemEvent.Cell);
+            }*/
         }
         
         private void TryPutItemToCell(ItemView itemView, CellView cell)

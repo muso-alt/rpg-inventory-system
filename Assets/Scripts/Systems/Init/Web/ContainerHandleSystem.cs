@@ -1,11 +1,9 @@
 ﻿using Inventory.Components;
-using Inventory.Data;
 using Inventory.Events;
 using Inventory.Services;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
 using Newtonsoft.Json;
-using UnityEngine;
 
 namespace Inventory.Systems
 {
@@ -33,9 +31,10 @@ namespace Inventory.Systems
             var jsonData = JsonConvert.DeserializeObject<JsonData>(container.Value);
 
             var createItemEvent = new CreateItemEvent {Items = jsonData.Items};
+            var createUnitsEvent = new CreateUnitsEvent {Player = jsonData.Player, Enemy = jsonData.Enemy};
                 
             _eventWorld.Value.SendEvent(createItemEvent);
-            _eventWorld.Value.SendEvent(jsonData.Units);
+            _eventWorld.Value.SendEvent(createUnitsEvent);
             
             _gameStateService.Value.IsPlaying = true;
         }

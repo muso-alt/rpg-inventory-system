@@ -17,10 +17,15 @@ namespace Inventory.Systems
     {
         private readonly EcsCustomInject<WebRequestView> _requestView;
         private readonly EcsCustomInject<InventoryService> _inventoryService;
+        private readonly EcsCustomInject<UnitsService> _unitsService;
         private readonly EcsCustomInject<ItemsData> _itemsData;
         
         private EcsPoolInject<Item> _itemsPool;
+        private EcsPoolInject<Unit> _unitsPool;
         private EcsFilterInject<Inc<Item>> _itemFilter;
+        
+        private EcsFilterInject<Inc<Player>> _playerFilter;
+        private EcsFilterInject<Inc<Enemy>> _enemyFilter;
         
         private readonly EcsFilterInject<Inc<UpdateDataEvent>> _dataEvent = "events";
         
@@ -48,26 +53,59 @@ namespace Inventory.Systems
                 ref var item = ref _itemsPool.Value.Get(entity);
 
                 var itemCell = item.View.GetItemCell(_inventoryService.Value.CellsView.Cells);
-
+                
                 var jsonItem = new ItemData
                 {
                     Name = item.Name,
                     CurrentCount = item.CurrentCount,
-                    CellIndex = GetCellIndex(itemCell)
+                    CellIndex = GetCellIndex(itemCell),
                 };
                 
                 items.Add(jsonItem);
             }
 
+            var bodyArmorCell = _unitsService.Value.PlayerArmorView.BodyCell;
+            var headArmorCell = _unitsService.Value.PlayerArmorView.HeadCell;
+            
             jsonData.Items = items;
             
-            jsonData.Units.PlayerHealth = 100;
-            jsonData.Units.EnemyHealth = 100;
+            jsonData.Player = GetUnitsData(_playerFilter);
+            jsonData.Player.EquipBodyArmorName = GetPlayerEquipArmorName(bodyArmorCell);
+            jsonData.Player.EquipHeadArmorName = GetPlayerEquipArmorName(headArmorCell);
+
+            jsonData.Enemy = GetUnitsData(_enemyFilter);
+            //May set enemy armors
 
             var data = JsonConvert.SerializeObject(jsonData);
             var id = _requestView.Value.CurrentAccountID;
             var container = new Container {Value = data, ID = id};
             return container;
+        }
+
+        private JsonUnit GetUnitsData<T>(EcsFilterInject<Inc<T>> filter) where T : struct
+        {
+            var unitData = new JsonUnit();
+            
+            if (filter.TryGetFirstEntityFromFilter(out var entity))
+            {
+                var unit = _unitsPool.Value.Get(entity);
+                unitData.Health = unit.Health;
+            }
+            
+            return unitData;
+        }
+
+        private string GetPlayerEquipArmorName(CellView cell)
+        {
+            var armor = cell.ChildItem;
+
+            if (armor == null)
+            {
+                return string.Empty;
+            }
+
+            var item = _itemsPool.Value.Get(armor.PackedEntityWithWorld.Id);
+            return item.Name;
         }
 
         private int GetCellIndex(CellView view)
@@ -82,7 +120,7 @@ namespace Inventory.Systems
                 }
             }
 
-            return 0;
+            return -1;
         }
         
         private async UniTask PostRequestAsync(Container container)

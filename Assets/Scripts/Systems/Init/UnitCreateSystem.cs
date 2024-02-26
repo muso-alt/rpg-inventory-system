@@ -1,30 +1,47 @@
 ﻿using Inventory.Components;
+using Inventory.Events;
 using Inventory.Services;
 using Inventory.Views;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
+using UnityEngine;
 
 namespace Inventory.Systems
 {
-    public class UnitCreateSystem : IEcsInitSystem
+    public class UnitCreateSystem : IEcsRunSystem
     {
         private EcsCustomInject<UnitsService> _unitsService;
         
         private readonly EcsWorldInject _defaultWorld = default;
-        private readonly EcsWorldInject _eventWorld = "events";
+        private readonly EcsFilterInject<Inc<CreateUnitsEvent>> _unitsFilter = "events";
         
-        public void Init(IEcsSystems systems)
+        public void Run(IEcsSystems systems)
         {
-            var playerEntity = CreateUnitEntity(_unitsService.Value.PlayerView);
+            foreach (var entity in _unitsFilter.Value)
+            {
+                var pool = _unitsFilter.Pools.Inc1;
+                var unitEvent = pool.Get(entity);
+                
+                CreatePlayer(unitEvent.Player);
+                CreateEnemy(unitEvent.Enemy);
+            }
+        }
+
+        private void CreatePlayer(JsonUnit unit)
+        {
+            var playerEntity = CreateUnitEntity(_unitsService.Value.PlayerView, unit.Health);
             var playerPool = _defaultWorld.Value.GetPool<Player>();
             playerPool.Add(playerEntity);
-            
-            var enemyEntity = CreateUnitEntity(_unitsService.Value.EnemyView);
+        }
+
+        private void CreateEnemy(JsonUnit unit)
+        {
+            var enemyEntity = CreateUnitEntity(_unitsService.Value.EnemyView, unit.Health);
             var enemyPool = _defaultWorld.Value.GetPool<Enemy>();
             enemyPool.Add(enemyEntity);
         }
 
-        private int CreateUnitEntity(UnitView view)
+        private int CreateUnitEntity(UnitView view, int unitHealth)
         {
             var entity = _defaultWorld.Value.NewEntity();
 
@@ -34,8 +51,7 @@ namespace Inventory.Systems
             view.PackedEntityWithWorld = _defaultWorld.Value.PackEntityWithWorld(entity);
 
             unit.View = view;
-            //TODO: FROM JSON INITIALIZE
-            unit.Health = 100;
+            unit.Health = unitHealth;
 
             return entity;
         }

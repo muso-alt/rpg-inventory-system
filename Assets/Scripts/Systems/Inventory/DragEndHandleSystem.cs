@@ -12,6 +12,7 @@ namespace Inventory.Systems
         private readonly EcsFilterInject<Inc<DragEvent>> _dragFilter = "events";
         private EcsCustomInject<InventoryService> _inventoryService;
         private EcsCustomInject<CameraService> _cameraService;
+        private readonly EcsCustomInject<ItemPlaceService> _placeService;
         
         private readonly EcsWorldInject _eventsWorld = "events";
         
@@ -45,8 +46,7 @@ namespace Inventory.Systems
                     continue;
                 }
                 
-                var placeItemEvent = new PlaceItemEvent {View = itemView, Cell = cell};
-                _eventsWorld.Value.SendEvent(placeItemEvent);
+                _placeService.Value.TryPutItemToCell(itemView, cell);
                 break;
             }
         }

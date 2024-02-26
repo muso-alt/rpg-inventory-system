@@ -3,6 +3,7 @@ using Inventory.Events;
 using Inventory.Services;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
+using UnityEngine;
 
 namespace Inventory.Systems
 {

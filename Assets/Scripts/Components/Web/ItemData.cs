@@ -10,7 +10,5 @@ namespace Inventory.Components
         public int CurrentCount;
         [JsonProperty]
         public int CellIndex;
-        [JsonProperty] 
-        public bool IsEquip;
     }
 }

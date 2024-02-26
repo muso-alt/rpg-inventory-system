@@ -6,9 +6,13 @@ namespace Inventory.Components
     public struct JsonData
     {
         [JsonProperty] 
-        public JsonUnits Units;
+        public JsonUnit Player;
+        
+        [JsonProperty] 
+        public JsonUnit Enemy;
         
         [JsonProperty]
         public List<ItemData> Items;
+        
     }
 }

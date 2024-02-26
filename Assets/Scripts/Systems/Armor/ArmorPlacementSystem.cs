@@ -3,6 +3,7 @@ using Inventory.Services;
 using Inventory.Views;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
+using UnityEngine;
 
 namespace Inventory.Systems
 {
@@ -10,6 +11,7 @@ namespace Inventory.Systems
     {
         private readonly EcsCustomInject<UnitsService> _unitsService;
         private readonly EcsCustomInject<InventoryService> _inventoryService;
+        private readonly EcsCustomInject<ItemPlaceService> _placeService;
         
         private readonly EcsWorldInject _eventWorld = "events";
         
@@ -50,10 +52,7 @@ namespace Inventory.Systems
 
         private void SendEvent(ItemView view, CellView cell)
         {
-            var itemPlaceEvent = new PlaceItemEvent
-                {View = view, Cell = cell};
-            
-            _eventWorld.Value.SendEvent(itemPlaceEvent);
+            _placeService.Value.TryPutItemToCell(view, cell);
         }
     }
 }

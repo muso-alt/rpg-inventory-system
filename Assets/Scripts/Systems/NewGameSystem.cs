@@ -37,8 +37,12 @@ namespace Inventory.Systems
                 {Name = config.ItemName, CellIndex = index, CurrentCount = config.MaxStackSize}).ToList();
 
             var createItemEvent = new CreateItemEvent {Items = items};
+            var player = new JsonUnit {Health = 100};
+            var enemy = new JsonUnit {Health = 100};
+            var createUnitsEvent = new CreateUnitsEvent {Player = player, Enemy = enemy};
                 
             _eventWorld.Value.SendEvent(createItemEvent);
+            _eventWorld.Value.SendEvent(createUnitsEvent);
         }
 
         private void SendUpdateEvent()
